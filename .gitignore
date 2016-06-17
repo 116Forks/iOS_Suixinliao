@@ -1,0 +1,14 @@
+
+TIMChat/TIMAdapter/Framework/IMCore.framework/IMCore
+
+TIMChat/TIMAdapter/Framework/ImSDK.framework/Headers/AVMultiInvitProtocols.h
+
+*.h
+
+TIMChat/TIMAdapter/Framework/ImSDK.framework/ImSDK
+
+TIMChat/TIMAdapter/Framework/IMSDKBugly.framework/IMSDKBugly
+
+TIMChat/TIMAdapter/Framework/IMSDKBugly.framework/Resources/Info.plist
+
+TIMChat/TIMAdapter/Framework/QALSDK.framework/QALSDK
