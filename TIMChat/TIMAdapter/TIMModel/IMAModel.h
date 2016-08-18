@@ -11,8 +11,6 @@
 
 
 
-#import "IMABase.h"
-
 #import "IMAModelUser.h"
 
 #import "IMAModelGroup.h"

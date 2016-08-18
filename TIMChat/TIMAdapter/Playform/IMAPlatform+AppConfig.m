@@ -29,7 +29,7 @@
     NSUInteger unReadCount = [[IMAPlatform sharedInstance].conversationMgr unReadMessageCount];
     [UIApplication sharedApplication].applicationIconBadgeNumber = unReadCount;
     
-    TIMBackgroundParam *param = [[TIMBackgroundParam alloc] init];
+    TIMBackgroundParam  *param = [[TIMBackgroundParam alloc] init];
     [param setC2cUnread:(int)unReadCount];
     
     
@@ -52,6 +52,11 @@
             *stop = YES;
         }
     }];
+    
+    //清空通知栏消息
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber: 1];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 // app become active
@@ -67,13 +72,19 @@
     NSString *token = [NSString stringWithFormat:@"%@", deviceToken];
     [[TIMManager sharedInstance] log:TIM_LOG_INFO tag:@"SetToken" msg:[NSString stringWithFormat:@"My Token is :%@", token]];
     TIMTokenParam *param = [[TIMTokenParam alloc] init];
-    
+
 #if kAppStoreVersion
+
+// AppStore版本
 #if DEBUG
     param.busiId = 1;
 #else
     param.busiId = 2;
 #endif
+    
+#else
+    //企业证书id
+    param.busiId = 0;
 #endif
     
     [param setToken:deviceToken];

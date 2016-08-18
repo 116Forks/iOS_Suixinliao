@@ -65,7 +65,6 @@
 {
     IMAUser *group = [_datas objectAtIndex:indexPath.row];
     [[AppDelegate sharedAppDelegate] pushToChatViewControllerWith:group];
-    
 }
 
 

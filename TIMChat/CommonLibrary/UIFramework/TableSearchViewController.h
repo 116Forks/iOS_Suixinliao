@@ -14,7 +14,7 @@
 //@end
 
 
-@interface TableSearchResultViewController : TableRefreshViewController<UISearchResultsUpdating, UISearchBarDelegate>
+@interface TableSearchResultViewController : TableRefreshViewController<UISearchResultsUpdating, UISearchBarDelegate, UISearchDisplayDelegate>
 
 @end
 
@@ -23,9 +23,12 @@
 {
 @protected
     UISearchController          *_searchController;
+    
+    UISearchDisplayController   *_searchDisController;
+    
 @protected
     // 搜索结果界面
-    UIViewController<UISearchResultsUpdating, UISearchBarDelegate> *_searchResultViewController;
+    UIViewController<UISearchResultsUpdating, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource> *_searchResultViewController;
 
 }
 

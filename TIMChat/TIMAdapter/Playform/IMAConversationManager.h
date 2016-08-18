@@ -6,8 +6,6 @@
 //  Copyright © 2016年 AlexiChen. All rights reserved.
 //
 
-#import "IMABase.h"
-
 
 typedef NS_OPTIONS(NSUInteger, IMAConversationChangedNotifyType) {
     EIMAConversation_SyncLocalConversation =    0x01,               // 同步本地会话结束
@@ -40,7 +38,7 @@ typedef NS_OPTIONS(NSUInteger, IMAConversationChangedNotifyType) {
 
 typedef void (^IMAConversationChangedCompletion)(IMAConversationChangedNotifyItem *item);
 
-@interface IMAConversationManager : IMABase<TIMMessageListener>
+@interface IMAConversationManager : NSObject<TIMMessageListener>
 {
 @protected
     CLSafeMutableArray          *_conversationList;
@@ -75,6 +73,9 @@ typedef void (^IMAConversationChangedCompletion)(IMAConversationChangedNotifyIte
 
 // 删除与某人的会话
 - (void)removeConversationWith:(IMAUser *)user;
+
+// 移除sdk生成的会话(不一定在_converdationlist中)
+- (void)removeConversationWithConv:(IMAConversation *)conv;
 
 // 更新与user的会话
 - (void)updateConversationWith:(IMAUser *)user;

@@ -8,7 +8,6 @@
 
 #import "IMAConversationManager.h"
 
-
 @implementation IMAConversationChangedNotifyItem
 
 - (instancetype)initWith:(IMAConversationChangedNotifyType)type
@@ -248,6 +247,8 @@
 
 - (IMAConversation *)queryConversationWith:(IMAUser *)user
 {
+    if (user)
+    {
     for (NSInteger i = 0; i < [_conversationList count]; i++)
     {
         IMAConversation *conv = [_conversationList objectAtIndex:i];
@@ -255,6 +256,7 @@
         {
             return conv;
         }
+    }
     }
     return nil;
 }
@@ -289,6 +291,15 @@
     }
 }
 
+- (void)removeConversationWithConv:(IMAConversation *)conv
+{
+    if (conv == nil)
+    {
+        return;
+    }
+    [[TIMManager sharedInstance] deleteConversation:[conv type] receiver:[conv receiver]];
+}
+
 - (void)updateConversationWith:(IMAUser *)user
 {
     IMAConversation *conv = [self queryConversationWith:user];
@@ -300,13 +311,10 @@
 
 - (NSInteger)insertPosition
 {
-    IMAHost *host = [IMAPlatform sharedInstance].host;
-    if (host && !host.isConnected)
+    IMAPlatform *mp = [IMAPlatform sharedInstance];
+    if (!mp.isConnected)
     {
-        if ([_conversationList count] > 1)
-        {
-            return 1;
-        }
+        return 1;
     }
     return 0;
 }
@@ -324,6 +332,7 @@
         IMAMsg *imamsg = [IMAMsg msgWith:msg];
         
         TIMConversation *conv = [msg getConversation];
+        
         BOOL isSystemMsg = [conv getType] == TIM_SYSTEM;
         
         BOOL isAddGroupReq = NO;
@@ -376,7 +385,7 @@
 
         BOOL updateSucc = NO;
         
-        for (NSInteger i = 0; i < [_conversationList count]; i++)
+        for (int i = 0; i < [_conversationList count]; i++)
         {
             IMAConversation *imaconv = [_conversationList objectAtIndex:i];
             NSString *imaconvReceiver = [imaconv receiver];
@@ -384,32 +393,62 @@
             {
                 if (imaconv == _chattingConversation)
                 {
-                    [conv setReadMessage];
-                    imaconv.lastMessage = imamsg;
-                    [_chattingConversation onReceiveNewMessage:imamsg];
+                    //如果是c2c会话，则更新“对方正在输入...”状态
+                    BOOL isInputStatus = NO;
+                    
+                    if (!msg.isSelf)
+                    {
+                        if ([_chattingConversation imaType] == TIM_C2C)
+                        {
+                            int elemCount = [imamsg.msg elemCount];
+                            for (int i = 0; i < elemCount; i++)
+                            {
+                                TIMElem* elem = [msg getElem:i];
+                                CustomElemCmd *elemCmd = [self isOnlineMsg:elem];
+                                
+                                if (elemCmd)
+                                {
+                                    isInputStatus = YES;
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:kUserInputStatus object:elemCmd];
+                                }
+                            }
+                        }
+                        
+                        if (!isInputStatus)
+                        {
+                            [conv setReadMessage];
+                            imaconv.lastMessage = imamsg;
+                            [_chattingConversation onReceiveNewMessage:imamsg];
+                        }
+                    }
                 }
                 else
                 {
-                    imaconv.lastMessage = imamsg;
-                    if (isSystemMsg)
-                    {
-                        __weak IMAConversationManager *ws = self;
-                        // 系统消息
-                        IMACustomConversation *customConv = (IMACustomConversation *)imaconv;
-                        [customConv saveMessage:imamsg succ:^(int newUnRead) {
-                            ws.unReadMessageCount += newUnRead;
-                            [ws updateOnChat:imaconv moveFromIndex:i];
-                        }];
-                    }
-                    else
+                    TIMElem* elem = [msg getElem:0];
+                    CustomElemCmd *elemCmd = [self isOnlineMsg:elem];
+                    
+                    if (!elemCmd)
                     {
                         imaconv.lastMessage = imamsg;
-                        //如果是自己发出去的消息，一定是已读(这里判断主要是用在多终端登录的情况下)
-                        if (![imamsg isMineMsg])
+                        if (isSystemMsg)
                         {
-                            self.unReadMessageCount++;
+                            __weak IMAConversationManager *ws = self;
+                            // 系统消息
+                            IMACustomConversation *customConv = (IMACustomConversation *)imaconv;
+                            [customConv saveMessage:imamsg succ:^(int newUnRead) {
+                                ws.unReadMessageCount += newUnRead;
+                                [ws updateOnChat:imaconv moveFromIndex:i];
+                            }];
                         }
-                        [self updateOnChat:imaconv moveFromIndex:i];
+                        else
+                        {
+                            //如果是自己发出去的消息，一定是已读(这里判断主要是用在多终端登录的情况下)
+                            if (![imamsg isMineMsg])
+                            {
+                                self.unReadMessageCount++;
+                            }
+                            [self updateOnChat:imaconv moveFromIndex:i];
+                        }
                     }
                 }
                 updateSucc = YES;
@@ -454,6 +493,18 @@
     }
 }
 
+- (CustomElemCmd *)isOnlineMsg:(TIMElem *) elem
+{
+    if ([elem isKindOfClass:[TIMCustomElem class]])
+    {
+        CustomElemCmd *elemCmd = [CustomElemCmd parseCustom:(TIMCustomElem *)elem];
+        if (elemCmd)
+        {
+            return elemCmd;
+        }
+    }
+    return nil;
+}
 //申请加群请求
 - (void)onAddGroupRequest:(TIMGroupSystemElem *)item
 {

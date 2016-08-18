@@ -15,6 +15,10 @@
 #import "TLSSDK/TLSRefreshTicketListener.h"
 #import "TLSSDK/TLSOpenLoginListener.h"
 
-@interface IMALoginViewController : UIViewController<TencentSessionDelegate, WXApiDelegate, TLSUILoginListener,TLSRefreshTicketListener,TLSOpenLoginListener>
+/**
+ *  封装的登录界面，拉起TLSUI的登录界面，实现TLS的代理，票据刷新，登录TLS，登录IMSDK等操作
+ */
+
+@interface IMALoginViewController : UIViewController<TLSUILoginListener,TLSRefreshTicketListener,TLSOpenLoginListener>//TencentSessionDelegate, WXApiDelegate,
 
 @end

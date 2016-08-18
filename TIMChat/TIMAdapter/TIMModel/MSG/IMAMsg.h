@@ -6,8 +6,6 @@
 //  Copyright © 2016年 AlexiChen. All rights reserved.
 //
 
-#import "IMABase.h"
-
 
 typedef NS_ENUM(NSInteger, IMAMSGType) {
     EIMAMSG_Unknown,            // 未知消息类型
@@ -24,6 +22,8 @@ typedef NS_ENUM(NSInteger, IMAMSGType) {
     EIMAMSG_GroupSystem,        // 群系统消息
     EIMAMSG_SNSSystem,          // 关系链消息
     EIMAMSG_ProfileSystem,      // 资料变更消息
+    EIMAMSG_InputStatus,        // 对方输入状态
+    EIMAMSG_SaftyTip,           // 敏感词消息提醒标签，不存在缓存中，退出聊天界面再进入，则不存在了
     
 #if kTestChatAttachment
     EIMAMSG_Multi,              // 富文消息，后期所有聊天消息全部使用富文本显示
@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, IMAMsgStatus)
     EIMAMsg_Deleted = TIM_MSG_STATUS_HAS_DELETED,   // 消息被删除
 };
 
-@interface IMAMsg : IMABase
+@interface IMAMsg : NSObject
 {
 @protected
     TIMMessage      *_msg;
@@ -79,6 +79,10 @@ typedef NS_ENUM(NSInteger, IMAMsgStatus)
 //
 + (instancetype)msgWithSound:(NSData *)data duration:(NSInteger)dur;
 + (instancetype)msgWithEmptySound;
+
++ (instancetype)msgWithCustom:(NSInteger)command;
+
++ (instancetype)msgWithCustom:(NSInteger)command param:(NSString *)param;
 //
 //+ (instancetype)msgWithGroupTips:(NSData *)data;
 //
@@ -137,3 +141,5 @@ typedef NS_ENUM(NSInteger, IMAMsgStatus)
 - (CGFloat)floatForKey:(id<NSCopying>)key;
 
 @end
+
+

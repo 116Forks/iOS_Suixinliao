@@ -20,6 +20,8 @@
     UILabel     *_noResultTip;
     
     __weak UISearchController *_searchController;
+    
+    __weak UISearchDisplayController *_searchDisController;
 }
 
 - (void)onSearchTextResult:(NSArray *)data;

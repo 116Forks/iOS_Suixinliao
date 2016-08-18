@@ -90,6 +90,7 @@
     IMAConversationManager *mgr = [IMAPlatform sharedInstance].conversationMgr;
     _conversationList = [mgr conversationList];
     
+    
     __weak ConversationListViewController *ws = self;
     mgr.conversationChangedCompletion = ^(IMAConversationChangedNotifyItem *item) {
         [ws onConversationChanged:item];
@@ -213,6 +214,10 @@
 {
     id<IMAConversationShowAble> conv = [_conversationList objectAtIndex:indexPath.row];
     NSString *reuseidentifier = [conv showReuseIndentifier];
+    [conv attributedDraft];
+    id<IMAConversationShowAble> tempCon = [[[IMAPlatform sharedInstance].conversationMgr conversationList] objectAtIndex:indexPath.row];
+    [tempCon attributedDraft];
+    
     ConversationListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseidentifier];
     if (!cell)
     {
@@ -234,8 +239,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
     id<IMAConversationShowAble> convable = [_conversationList objectAtIndex:indexPath.row];
     ConversationListTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     IMAConversation *conv = (IMAConversation *)convable;
@@ -247,11 +250,12 @@
             IMAUser *user = [[IMAPlatform sharedInstance] getReceiverOf:conv];
             
             if (user)
-            {
+            {   
+                [[AppDelegate sharedAppDelegate] pushToChatViewControllerWith:user];
+                
                 [conv setReadAllMsg];
                 
                 [cell refreshCell];
-                [[AppDelegate sharedAppDelegate] pushToChatViewControllerWith:user];
             }
             else
             {
@@ -259,13 +263,17 @@
                 {
                     // 与陌生人聊天
                     [[IMAPlatform sharedInstance] asyncGetStrangerInfo:[conv receiver] succ:^(IMAUser *auser) {
-                        [conv setReadAllMsg];
-                        ConversationListTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                        [cell refreshCell];
-                        [[AppDelegate sharedAppDelegate] pushToChatViewControllerWith:auser];
+                        
+                            [[AppDelegate sharedAppDelegate] pushToChatViewControllerWith:auser];
+                            
+                            [conv setReadAllMsg];
+                            ConversationListTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+                            [cell refreshCell];
+                        
                     } fail:^(int code, NSString *msg) {
-                        [[HUDHelper sharedInstance] tipMessage:IMALocalizedError(code, msg)];
-                        [[IMAPlatform sharedInstance].conversationMgr deleteConversation:conv needUIRefresh:YES];
+                            
+                            [[HUDHelper sharedInstance] tipMessage:IMALocalizedError(code, msg)];
+                            [[IMAPlatform sharedInstance].conversationMgr deleteConversation:conv needUIRefresh:YES];
                     }];
                 }
                 else if ([conv type] == TIM_GROUP)

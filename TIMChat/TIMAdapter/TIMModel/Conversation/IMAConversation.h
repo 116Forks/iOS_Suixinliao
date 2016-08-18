@@ -6,15 +6,14 @@
 //  Copyright © 2016年 AlexiChen. All rights reserved.
 //
 
-#import "IMABase.h"
-
 @class IMAUser;
 @class IMAMsg;
 
 typedef void (^HandleMsgBlock)(NSArray *imamsgList, BOOL succ);
+typedef void (^HandleMsgCodeBlock)(NSArray *imamsgList, BOOL succ, int code);
 typedef void (^RemoveMsgBlock)(NSArray *imamsgList, BOOL succ, CommonVoidBlock removeingAction);
 
-@interface IMAConversation : IMABase
+@interface IMAConversation : NSObject
 {
 @protected
     TIMConversation     *_conversation;
@@ -52,7 +51,9 @@ typedef void (^RemoveMsgBlock)(NSArray *imamsgList, BOOL succ, CommonVoidBlock r
 
 - (BOOL)isChatWith:(IMAUser *)user;
 
-- (NSArray *)sendMessage:(IMAMsg *)msg completion:(HandleMsgBlock)block;
+- (NSArray *)sendMessage:(IMAMsg *)msg completion:(HandleMsgCodeBlock)block;
+
+- (void)sendOnlineMessage:(TIMMessage*)msg succ:(TIMSucc)succ fail:(TIMFail)fail;
 
 - (NSArray *)appendWillSendMsg:(IMAMsg *)msg completion:(HandleMsgBlock)block;
 - (void)replaceWillSendMsg:(IMAMsg *)msg with:(IMAMsg *)newMsg completion:(HandleMsgBlock)block;
@@ -65,6 +66,9 @@ typedef void (^RemoveMsgBlock)(NSArray *imamsgList, BOOL succ, CommonVoidBlock r
 
 - (NSInteger)unReadCount;
 
+- (void)setDraft:(TIMMessageDraft *)msgDraft;
+
+- (TIMMessageDraft *)getDraft;
 
 //===========================
 // Protected方法

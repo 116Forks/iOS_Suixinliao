@@ -8,6 +8,8 @@
 
 #import "IMAMsg.h"
 
+#import "CustomElemCmd.h"
+
 @interface IMAMsg ()
 
 @property (nonatomic, strong) NSMutableDictionary *affixParams;
@@ -156,6 +158,24 @@
     [msg addElem:elem];
     
     return [[IMAMsg alloc] initWith:msg type:EIMAMSG_Sound];
+}
+
++ (instancetype)msgWithCustom:(NSInteger)command
+{
+    return [IMAMsg msgWithCustom:command param:nil];
+}
+
++ (instancetype)msgWithCustom:(NSInteger)command param:(NSString *)param
+{
+    CustomElemCmd *cmd = [[CustomElemCmd alloc] initWith:command param:param];
+    
+    TIMCustomElem *elem = [[TIMCustomElem alloc] init];
+    elem.data = [cmd packToSendData];
+    
+    TIMMessage *customMsg = [[TIMMessage alloc] init];
+    [customMsg addElem:elem];
+    
+    return [[IMAMsg alloc] initWith:customMsg type:command];
 }
 
 + (instancetype)msgWith:(TIMMessage *)msg
@@ -460,7 +480,7 @@
 
 - (void)remove
 {
-    if (self.type == EIMAMSG_TimeTip)
+    if (self.type == EIMAMSG_TimeTip || self.type == EIMAMSG_SaftyTip)
     {
         // 属于自定义的类型，不在IMSDK数据库里面，不能调remove接口
         return;
@@ -506,7 +526,7 @@
 
 - (BOOL)isVailedType
 {
-    return self.type != EIMAMSG_TimeTip;
+    return self.type != EIMAMSG_TimeTip && self.type != EIMAMSG_SaftyTip;
 }
 
 - (BOOL)isMultiMsg

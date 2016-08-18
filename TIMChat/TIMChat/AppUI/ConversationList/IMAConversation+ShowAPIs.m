@@ -94,6 +94,23 @@
     return [_lastMessage showLastMsgAttributedText];
 }
 
+- (NSAttributedString *)attributedDraft
+{
+    TIMMessageDraft *msgDraft = [_conversation getDraft];
+    if (!msgDraft)
+    {
+        return nil;
+    }
+    IMAMsg *msg = [IMAMsg msgWithDraft:msgDraft];
+    
+    NSMutableAttributedString *flag = [[NSMutableAttributedString alloc] initWithString:@"[草稿]" attributes:@{NSFontAttributeName : [msg tipFont], NSForegroundColorAttributeName : kRedColor}];
+    NSAttributedString *draftStr = [msg showDraftMsgAttributedText];
+    
+    [flag appendAttributedString:draftStr];
+    
+    return flag;
+}
+
 @end
 
 
@@ -145,6 +162,17 @@
 {
     return nil;
 }
+
+- (NSString *)draft
+{
+    return nil;
+}
+
+- (NSAttributedString *)attributedDraft
+{
+    return nil;
+}
+
 - (NSInteger)unReadCount
 {
     return 0;

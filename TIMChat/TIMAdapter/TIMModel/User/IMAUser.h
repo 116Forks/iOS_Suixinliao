@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface IMAUser : IMABase<IMAUserShowAble, IMAContactItemShowAble>
+@interface IMAUser : NSObject<IMAUserShowAble, IMAContactItemShowAble>
 {
 @protected
     NSString    *_userId;       // app对应的帐号

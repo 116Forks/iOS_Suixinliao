@@ -19,7 +19,11 @@
  */
 - (void)onConnSucc
 {
-    self.host.isConnected = YES;
+    self.isConnected = YES;
+    
+    TCQALNetwork net = [[QalSDKProxy sharedInstance] getNetType];
+    [self changeToNetwork:net];
+    
     [self.conversationMgr onConnect];
 }
 
@@ -32,9 +36,9 @@
 - (void)onConnFailed:(int)code err:(NSString*)err
 {
     
-    self.host.isConnected = NO;
+    self.isConnected = NO;
     [self.conversationMgr onDisConnect];
-    
+
     DebugLog(@"网络连接失败");
 }
 
@@ -47,10 +51,10 @@
 - (void)onDisconnect:(int)code err:(NSString*)err
 {
     
-    self.host.isConnected = NO;
+    self.isConnected = NO;
     [self.conversationMgr onDisConnect];
-    
-    DebugLog(@"网络连接断开");
+
+    DebugLog(@"网络连接断开 code = %d, err = %@", code, err);
 }
 
 
@@ -82,7 +86,7 @@ static BOOL kIsAlertingForceOffline = NO;
             if (buttonIndex == 0)
             {
                 // 退出
-                [[IMAPlatform sharedInstance] logout:^{
+                [self logout:^{
                     [[IMAAppDelegate sharedAppDelegate] enterLoginUI];
                 } fail:^(int code, NSString *msg) {
                     [[IMAAppDelegate sharedAppDelegate] enterLoginUI];
@@ -217,11 +221,14 @@ static BOOL kIsAlertingForceOffline = NO;
         [self.conversationMgr asyncConversationList];
         [[TIMManager sharedInstance] setMessageListener:self.conversationMgr];
     });
+    
+    
+    [self.contactMgr asyncConfigGroup];
 }
 
 - (void)onRefreshConversations:(NSArray*)conversations
 {
-    [[IMAPlatform sharedInstance].conversationMgr asyncConversationList];
+    [self.conversationMgr asyncConversationList];
 }
 
 @end
@@ -234,7 +241,7 @@ static BOOL kIsAlertingForceOffline = NO;
  *
  *  @param status 当前状态
  */
--(void) OnProxyStatusChange:(TIM_FRIENDSHIP_PROSY_STATUS)status
+- (void) OnProxyStatusChange:(TIM_FRIENDSHIP_PROXY_STATUS)status
 {
     if (status == TIM_FRIENDSHIP_STATUS_SYNCED)
     {

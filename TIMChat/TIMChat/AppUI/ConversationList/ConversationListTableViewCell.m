@@ -111,6 +111,10 @@
         [ws updateCellOnNewMessage];
     }];
     
+    [self.KVOController observe:item keyPath:@"draft" options:NSKeyValueObservingOptionNew block:^(id observer, id object, NSDictionary *change){
+        [ws updateCellOnNewMessage];
+    }];
+    
     [self updateCellOnNewMessage];
 }
 
@@ -128,9 +132,13 @@
     _lastMsgTime.text = [_showItem lastMsgTime];
     
 #if kTestChatAttachment
-    _lastMsg.attributedText = [_showItem lastAttributedMsg];
+
+    NSAttributedString *attributeDraft = [_showItem attributedDraft];
+    _lastMsg.attributedText = attributeDraft.length ? attributeDraft : [_showItem lastAttributedMsg];
+
 #else
-    _lastMsg.text = [_showItem lastMsg];
+    NSString *draft = [_showItem attributedDraft];
+    _lastMsg.text = draft.length ? draft : [_showItem lastMsg];
 #endif
     NSInteger unReadCount = [_showItem unReadCount];
     _unReadBadge.hidden = unReadCount == 0;

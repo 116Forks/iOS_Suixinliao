@@ -14,8 +14,9 @@
 
 @interface IMALoginViewController ()
 {
-    __weak id<WXApiDelegate>    _tlsuiwx;
-    TencentOAuth                *_openQQ;
+//微信、QQ、游客登录现在Demo中不再支持，如有需要，请用户自行完成
+//    __weak id<WXApiDelegate>    _tlsuiwx;
+//    TencentOAuth                *_openQQ;
     IMALoginParam               *_loginParam;
 }
 
@@ -28,8 +29,8 @@
 - (void)dealloc
 {
     DebugLog(@"IMALoginViewController=====>>>>> release");
-    _tlsuiwx = nil;
-    _openQQ = nil;
+//    _tlsuiwx = nil;
+//    _openQQ = nil;
     
     [_loginParam saveToLocal];
 }
@@ -74,6 +75,9 @@
     }
 }
 
+/**
+ *  自动登录
+ */
 - (void)autoLogin
 {
     if ([_loginParam isExpired])
@@ -90,17 +94,22 @@
 
 - (void)enterMainUI
 {
-    _tlsuiwx = nil;
-    _openQQ = nil;
+//    _tlsuiwx = nil;
+//    _openQQ = nil;
     [[IMAAppDelegate sharedAppDelegate] enterMainUI];
     
-
+    [[IMAPlatform sharedInstance] configOnLoginSucc:_loginParam];
 }
 
+/**
+ *  成功登录TLS之后，再登录IMSDK
+ *
+ *  @param userinfo 登录TLS成功之后回调回来的用户信息
+ */
 - (void)loginWith:(TLSUserInfo *)userinfo
 {
-    _openQQ = nil;
-    _tlsuiwx = nil;
+//    _openQQ = nil;
+//    _tlsuiwx = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (userinfo)
         {
@@ -114,6 +123,9 @@
     });
 }
 
+/**
+ *  登录IMSDK
+ */
 - (void)loginIMSDK
 {
     //直接登录
@@ -131,38 +143,38 @@
 
 
 #pragma mak - delegate<TencentLoginDelegate>
--(void)tencentDidNotNetWork
-{
-    DebugLog(@"tencentDidNotNetWork");
-}
-
--(void)tencentDidLogin
-{
-    DebugLog(@"tencentDidLogin");
-}
-
--(void)tencentDidNotLogin:(BOOL)cancelled
-{
-    DebugLog(@"tencentDidNotLogin");
-}
+//-(void)tencentDidNotNetWork
+//{
+//    DebugLog(@"tencentDidNotNetWork");
+//}
+//
+//-(void)tencentDidLogin
+//{
+//    DebugLog(@"tencentDidLogin");
+//}
+//
+//-(void)tencentDidNotLogin:(BOOL)cancelled
+//{
+//    DebugLog(@"tencentDidNotLogin");
+//}
 
 #pragma mark - delegate<WXApiDelegate>
--(void) onReq:(BaseReq *)req
-{
-    DebugLog(@"onReq:%@", req);
-}
-
--(void)onResp:(BaseResp *)resp
-{
-    DebugLog(@"%d %@ %d",resp.errCode, resp.errStr, resp.type);
-    if ([resp isKindOfClass:[SendAuthResp class]])
-    {
-        if(_tlsuiwx != nil)
-        {
-            [_tlsuiwx onResp:resp];
-        }
-    }
-}
+//-(void) onReq:(BaseReq *)req
+//{
+//    DebugLog(@"onReq:%@", req);
+//}
+//
+//-(void)onResp:(BaseResp *)resp
+//{
+//    DebugLog(@"%d %@ %d",resp.errCode, resp.errStr, resp.type);
+//    if ([resp isKindOfClass:[SendAuthResp class]])
+//    {
+//        if(_tlsuiwx != nil)
+//        {
+//            [_tlsuiwx onResp:resp];
+//        }
+//    }
+//}
 
 #pragma mark - 拉起登陆框
 - (void)pullLoginUI
@@ -178,7 +190,8 @@
     //demo暂不提供微博登录
     //    tlsSetting.wbScope = nil;
     //    tlsSetting.wbRedirectURI = @"https://api.weibo.com/oauth2/default.html";
-    _tlsuiwx = TLSUILogin(self, setting);
+//    _tlsuiwx = TLSUILogin(self, setting);
+    TLSUILogin(self, setting);
 }
 
 #pragma mark - delegate<TLSUILoginListener>
@@ -194,7 +207,7 @@
 {
     //回调时已结束登录流程 销毁微信回调对象
     
-    [[TLSHelper getInstance] TLSOpenLogin:kQQAccountType andOpenId:_openQQ.openId andAppid:QQ_APP_ID andAccessToken:_openQQ.accessToken andTLSOpenLoginListener:self];
+//    [[TLSHelper getInstance] TLSOpenLogin:kQQAccountType andOpenId:_openQQ.openId andAppid:QQ_APP_ID andAccessToken:_openQQ.accessToken andTLSOpenLoginListener:self];
     
 }
 //已经废弃
@@ -205,7 +218,7 @@
 
 -(void)TLSUILoginWXOK2:(TLSTokenInfo *)tokenInfo
 {
-    [[TLSHelper getInstance] TLSOpenLogin:kWXAccountType andOpenId:tokenInfo.openid andAppid:WX_APP_ID andAccessToken:tokenInfo.accessToken andTLSOpenLoginListener:self];
+//    [[TLSHelper getInstance] TLSOpenLogin:kWXAccountType andOpenId:tokenInfo.openid andAppid:WX_APP_ID andAccessToken:tokenInfo.accessToken andTLSOpenLoginListener:self];
 }
 //demo暂不提供微博登录
 

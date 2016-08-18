@@ -37,6 +37,12 @@
 // 最后一条消息（富文本）
 - (NSAttributedString *)lastAttributedMsg;
 
+// 草稿(普通文本)
+- (NSString *)draft;
+
+// 草稿(富文本)
+- (NSAttributedString *)attributedDraft;
+
 // 会话未读数
 - (NSInteger)unReadCount;
 

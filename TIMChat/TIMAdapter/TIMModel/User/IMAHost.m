@@ -10,15 +10,6 @@
 
 @implementation IMAHost
 
-- (instancetype)init
-{
-    if (self = [super init])
-    {
-        _isConnected = YES;
-    }
-    return self;
-}
-
 - (void)asyncProfile
 {
     __weak IMAHost *ws = self;

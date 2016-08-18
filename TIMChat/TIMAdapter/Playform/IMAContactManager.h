@@ -6,9 +6,6 @@
 //  Copyright © 2016年 AlexiChen. All rights reserved.
 //
 
-#import "IMABase.h"
-
-
 typedef NS_OPTIONS(NSUInteger, IMAContactChangedNotifyType) {
     // 联系人列表事件
     EIMAContact_AddNewSubGroup   =    0x0001 ,            // 新建分组
@@ -57,8 +54,10 @@ typedef NS_OPTIONS(NSUInteger, IMAContactChangedNotifyType) {
 typedef void (^IMAContactChangedCompletion)(IMAContactChangedNotifyItem *item);
 
 typedef void (^IMASubGroupCompletion)(IMASubGroup *sg);
-
-@interface IMAContactManager : IMABase
+/**
+ *  联系人管理类。包括好友，群的管理，这里的类与界面无关，只是对数据的操作，界面上对联系人的操作，调用这个类的接口即可。
+ */
+@interface IMAContactManager : NSObject
 {
 @protected
     // 好友分组IMASubGroup列表

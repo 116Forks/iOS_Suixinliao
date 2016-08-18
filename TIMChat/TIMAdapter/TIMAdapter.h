@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import <QALSDK/QalSDKProxy.h>
+
 #import <ImSDK/ImSDK.h>
 
 #import <TLSSDK/TLSHelper.h>

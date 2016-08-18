@@ -34,6 +34,7 @@
         [[IMAPlatform sharedInstance] asyncSearchGroupBy:((AddFriendPageItem *)_pageItem).key with:_pageItem succ:^(NSArray *arr) {
             [ws onSearchTextResult:arr];
         } fail:^(int code, NSString *msg) {
+            [[HUDHelper sharedInstance] tipMessage:IMALocalizedError(code, err)];
             [ws onSearchTextResult:nil];
         }];
     }
@@ -117,7 +118,14 @@
 - (void)addSearchController
 {
     [super addSearchController];
-    _searchController.searchBar.placeholder = @"群ID/群名称";
+    if (_searchController)
+    {
+        _searchController.searchBar.placeholder = @"群ID/群名称";
+    }
+    if (_searchDisController)
+    {
+        _searchDisController.searchBar.placeholder = @"群ID/群名称";;
+    }
 }
 
 @end

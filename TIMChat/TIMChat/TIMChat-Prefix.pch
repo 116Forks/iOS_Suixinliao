@@ -9,10 +9,6 @@
 #ifndef TIMChat_Prefix_h
 #define TIMChat_Prefix_h
 
-
-// 是否为AppStore版本
-#define kAppStoreVersion 0
-
 // 是否支持富文本显示
 #define kTestChatAttachment 1
 
@@ -29,5 +25,7 @@
 #import "AppDelegate.h"
 
 #import "AppUIHeaders.h"
+
+#import <AVFoundation/AVAsset.h>
 
 #endif /* TIMChat_Prefix_h */

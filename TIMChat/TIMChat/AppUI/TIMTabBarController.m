@@ -64,10 +64,20 @@
         }
 #if kTestChatAttachment
         // 无则重新创建
-        ChatViewController *vc = [[RichChatViewController alloc] initWith:user];
+        ChatViewController *vc = [[CustomChatUIViewController alloc] initWith:user];
 #else
         ChatViewController *vc = [[IMAChatViewController alloc] initWith:user];
 #endif
+        
+        if ([user isC2CType])
+        {
+            TIMConversation *imconv = [[TIMManager sharedInstance] getConversation:TIM_C2C receiver:user.userId];
+            if ([imconv getUnReadMessageNum] > 0)
+            {
+                [vc modifySendInputStatus:SendInputStatus_Send];
+            }
+        }
+        
         vc.hidesBottomBarWhenPushed = YES;
         [curNav pushViewController:vc withBackTitle:@"返回" animated:YES];
     }
@@ -77,7 +87,7 @@
         
 #if kTestChatAttachment
         // 无则重新创建
-        ChatViewController *vc = [[RichChatViewController alloc] initWith:user];
+        ChatViewController *vc = [[CustomChatUIViewController alloc] initWith:user];
 #else
         ChatViewController *vc = [[IMAChatViewController alloc] initWith:user];
 #endif

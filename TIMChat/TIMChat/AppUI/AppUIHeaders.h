@@ -25,6 +25,8 @@
 
 #import "ChatHeaders.h"
 
+#import "CustomChatUIViewController.h"
+
 #import "SubGroupHeaders.h"
 
 #import "AddFriendHeaders.h"

@@ -251,26 +251,29 @@
     return equal;
 }
 
-- (NSArray *)sendMessage:(IMAMsg *)msg completion:(HandleMsgBlock)block
+- (NSArray *)sendMessage:(IMAMsg *)msg completion:(HandleMsgCodeBlock)block
 {
     if (msg)
     {
-        NSArray *array = [self addMsgToList:msg];
+        NSMutableArray *array = [self addMsgToList:msg];
         
         [msg changeTo:EIMAMsg_Sending needRefresh:NO];
         [_conversation sendMessage:msg.msg succ:^{
             [msg changeTo:EIMAMsg_SendSucc needRefresh:YES];
             if (block)
             {
-                block(array, YES);
+                block(array, YES, 0);
             }
         } fail:^(int code, NSString *err) {
             [msg changeTo:EIMAMsg_SendFail needRefresh:YES];
             DebugLog(@"发送消息失败");
-            [[HUDHelper sharedInstance] tipMessage:IMALocalizedError(code, err)];
+            if (code != kSaftyWordsCode)
+            {
+                [[HUDHelper sharedInstance] tipMessage:IMALocalizedError(code, err)];
+            }
             if (block)
             {
-                block(array, NO);
+                block(array, NO, code);
             }
         }];
         
@@ -279,7 +282,12 @@
     return nil;
 }
 
-- (NSArray *)addMsgToList:(IMAMsg *)msg
+- (void)sendOnlineMessage:(TIMMessage*)msg succ:(TIMSucc)succ fail:(TIMFail)fail
+{
+    [_conversation sendOnlineMessage:msg succ:succ fail:fail];
+}
+
+- (NSMutableArray *)addMsgToList:(IMAMsg *)msg
 {
     if (msg)
     {
@@ -388,7 +396,7 @@
                             IMAMsg *nextMsg = [_msgList objectAtIndex:nextIdx];
                             if (nextMsg.type == EIMAMSG_TimeTip)
                             {
-                                [array addObject:preMsg];
+                                [array addObject:nextMsg];
                                 [array addObject:msgReal];
                             }
                             else
@@ -472,5 +480,15 @@
     {
         _receiveMsg(array, YES);
     }
+}
+
+- (void)setDraft:(TIMMessageDraft *)draft
+{
+    [_conversation setDraft:draft];
+}
+
+- (TIMMessageDraft *)getDraft
+{
+    return [_conversation getDraft];
 }
 @end

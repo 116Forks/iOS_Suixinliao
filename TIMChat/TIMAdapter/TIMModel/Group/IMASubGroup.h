@@ -6,13 +6,11 @@
 //  Copyright © 2016年 AlexiChen. All rights reserved.
 //
 
-#import "IMABase.h"
-
 // 分组
 // 对应IMSDK里面的TIMFriendGroup
 // 目前分组里的数据没有作排序
 // 用户可根据具体逻辑作排序
-@interface IMASubGroup : IMABase<IMAContactDrawerShowAble>
+@interface IMASubGroup : NSObject<IMAContactDrawerShowAble>
 
 @property(nonatomic, copy) NSString         *name;              // 分组名
 

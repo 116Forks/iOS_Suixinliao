@@ -63,6 +63,11 @@
     [_datas addObjectsFromArray:data];
     self.canLoadMore = _pageItem.canLoadMore;
     [self reloadData];
+    
+    if (_searchDisController)
+    {
+        [_searchDisController.searchResultsTableView reloadData];
+    }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -79,10 +84,14 @@
         
         __weak AddFriendSearchResultViewController *ws = self;
         [[IMAPlatform sharedInstance] asyncSearchUserBy:((AddFriendPageItem *)_pageItem).key with:_pageItem succ:^(NSArray *ul) {
-            [ws onSearchTextResult:ul];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [ws onSearchTextResult:ul];
+            });
         } fail:^(int code, NSString *err) {
-            [[HUDHelper sharedInstance] tipMessage:IMALocalizedError(code, err)];
-            [ws allLoadingCompleted];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[HUDHelper sharedInstance] tipMessage:IMALocalizedError(code, err)];
+                [ws allLoadingCompleted];
+            });
         }];
     }
     
@@ -106,6 +115,13 @@
     {
         searchController.searchResultsController.view.hidden = NO;
     }
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    DebugLog(@"searchString = %@",searchString);
+    _searchDisController = controller;
+    return YES;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -182,7 +198,15 @@
 - (void)addSearchController
 {
     [super addSearchController];
-    _searchController.searchBar.placeholder = @"用户ID/昵称";
+    
+    if (_searchController)
+    {
+        _searchController.searchBar.placeholder = @"用户ID/昵称";
+    }
+    if (_searchDisController)
+    {
+        _searchDisController.searchBar.placeholder = @"用户ID/昵称";
+    }
 }
 
 @end

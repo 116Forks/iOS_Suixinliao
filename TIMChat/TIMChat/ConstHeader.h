@@ -11,6 +11,7 @@
 
 #define kDefaultMargin  8
 
+#define kAppStoreVersion 0
 
 #define kDefaultSubGroupIcon        [UIImage imageWithColor:kOrangeColor size:CGSizeMake(32, 32)]
 
@@ -21,6 +22,7 @@
 
 #define kDefaultSilentUntil     100
 
+#define kSaftyWordsCode 80001
 
 
 #endif /* ConstHeader_h */

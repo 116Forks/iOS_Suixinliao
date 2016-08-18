@@ -8,6 +8,12 @@
 
 #import "IMAPlatform.h"
 
+@interface IMAPlatform ()
+
+@property (nonatomic, assign) TCQALNetwork networkType;
+
+@end
+
 @implementation IMAPlatform
 
 #define kIMAPlatformConfig          @"IMAPlatformConfig"
@@ -27,7 +33,18 @@ static IMAPlatform *_sharedInstance = nil;
     return _sharedInstance;
     
 }
-
+static Class kHostClass = Nil;
++ (void)configHostClass:(Class)hostcls
+{
+    if (![hostcls isSubclassOfClass:[IMAHost class]])
+    {
+        DebugLog(@"%@ 必须是IMAHost的子类型", hostcls);
+    }
+    else
+    {
+        kHostClass = hostcls;
+    }
+}
 + (instancetype)sharedInstance
 {
     // TODO:
@@ -150,9 +167,14 @@ static IMAPlatform *_sharedInstance = nil;
 {
     [self offlineLogin];
     
+    self.offlineExitLivingBlock = nil;
     
     [IMAPlatform setAutoLogin:NO];
     _host = nil;
+    
+#if kIsUseAVSDKAsLiveScene
+    [TCAVSharedContext destroyContextCompletion:nil];
+#endif
     
 }
 
@@ -187,6 +209,40 @@ static IMAPlatform *_sharedInstance = nil;
 - (IMAPlatformConfig *)localConfig
 {
     return _host.loginParm.config;
+}
+
+- (void)configHost:(TIMLoginParam *)param
+{
+    if (!_host)
+    {
+        if (kHostClass == Nil)
+        {
+            kHostClass = [IMAHost class];
+        }
+        _host = [[kHostClass alloc] init];
+    }
+    _host.loginParm = param;
+    [_host asyncProfile];
+    
+#if kIsUseAVSDKAsLiveScene
+    [TCAVSharedContext configWithStartedContext:_host completion:nil];
+#endif
+}
+
+
+- (void)changeToNetwork:(TCQALNetwork)work
+{
+    if (work > EQALNetworkType_ReachableViaWWAN)
+    {
+        // 不处理这些
+        work = EQALNetworkType_ReachableViaWWAN;
+    }
+    DebugLog(@"网络切换到(-1:未知 0:无网 1:wifi 2:移动网):%d", work);
+    //    if (work != _networkType)
+    //    {
+    self.networkType = work;
+    
+    //    }
 }
 
 

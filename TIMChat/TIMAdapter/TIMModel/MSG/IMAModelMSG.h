@@ -11,4 +11,8 @@
 
 #import "IMAMsg.h"
 
+#import "IMAMsg+Draft.h"
+
+#import "CustomElemCmd.h"
+
 #endif /* TIMModelMSG_h */

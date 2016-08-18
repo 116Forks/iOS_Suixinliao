@@ -15,7 +15,6 @@
 
 @property (nonatomic, strong) TIMUserProfile    *profile;
 
-@property (nonatomic, assign) BOOL isConnected;     // 当前是否连接上，外部可用此方法判断是否有网
 
 // 同步自己的个人资料
 - (void)asyncProfile;
