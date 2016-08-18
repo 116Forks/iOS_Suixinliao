@@ -3,7 +3,6 @@ TIMChat/TIMAdapter/Framework/IMCore.framework/IMCore
 
 TIMChat/TIMAdapter/Framework/ImSDK.framework/Headers/AVMultiInvitProtocols.h
 
-*.h
 
 TIMChat/TIMAdapter/Framework/ImSDK.framework/ImSDK
 
@@ -13,7 +12,6 @@ TIMChat/TIMAdapter/Framework/IMSDKBugly.framework/Resources/Info.plist
 
 TIMChat/TIMAdapter/Framework/QALSDK.framework/QALSDK
 
-*.png
 
 TIMChat/TIMAdapter/Framework/TencentOpenApi_IOS_Bundle.bundle/Info.plist
 
@@ -23,9 +21,6 @@ TIMChat/TIMAdapter/Framework/TencentOpenAPI.framework/TencentOpenAPI
 
 TIMChat/TIMAdapter/Framework/TLSSDK.framework/TLSSDK
 
-*.plist
-
-*.nib
 
 TIMChat/TIMAdapter/Framework/TLSUI.framework/TLSUI
 
