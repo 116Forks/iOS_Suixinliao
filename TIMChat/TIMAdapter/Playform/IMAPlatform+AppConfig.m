@@ -77,14 +77,14 @@
 
 // AppStore版本
 #if DEBUG
-    param.busiId = 1;
+    param.busiId = 2383;
 #else
-    param.busiId = 2;
+    param.busiId = 2382;
 #endif
     
 #else
     //企业证书id
-    param.busiId = 0;
+    param.busiId = 2516;
 #endif
     
     [param setToken:deviceToken];

@@ -36,7 +36,7 @@
     {
         _sendInputStatus = SendInputStatus_notSend;
         _receiver = user;
-        _isSendMsg = NO;
+//        _isSendMsg = NO;
     }
     return self;
 }
@@ -301,7 +301,7 @@
 {
     if (msg)
     {
-        _isSendMsg = YES;
+//        _isSendMsg = YES;
         [_tableView beginUpdates];
         
         __weak ChatViewController *ws = self;

@@ -134,19 +134,9 @@
 
 - (void)setReadAllMsg
 {
-    NSMutableArray *conversationList = [NSMutableArray array];
     
 //2.0之前的版本不支持 getConversationList 接口
-#if kGetConverSationList
-    conversationList = [[TIMManager sharedInstance] getConversationList];
-#else
-    int cnt = [[TIMManager sharedInstance] ConversationCount];
-    for (int index=0; index < cnt; index++)
-    {
-        TIMConversation *conversation = [[TIMManager sharedInstance] getConversationByIndex:index];
-        [conversationList addObject:conversation];
-    }
-#endif
+    NSArray *conversationList = [[TIMManager sharedInstance] getConversationList];
     
     for (TIMConversation * conversation in conversationList)
     {

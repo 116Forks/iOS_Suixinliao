@@ -11,7 +11,7 @@
 
 #define kDefaultMargin  8
 
-#define kAppStoreVersion 0
+#define kAppStoreVersion 1
 
 #define kDefaultSubGroupIcon        [UIImage imageWithColor:kOrangeColor size:CGSizeMake(32, 32)]
 

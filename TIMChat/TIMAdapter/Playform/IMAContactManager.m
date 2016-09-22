@@ -258,11 +258,8 @@
 
 - (void)removeUserToBlackList:(IMAUser *)user
 {
-    [self removeUser:user];
+//    [self removeUser:user];//这里不需要移除，添加到黑名单时，会收到一个删除好友的回调通知，-(void) OnDelFriends:(NSArray*)identifiers，在这个回调通知里面已经处理了
     [self onAddToBlackList:user];
-    
-    
-    
 }
 
 - (void)removeUserOutBlackList:(IMAUser *)user

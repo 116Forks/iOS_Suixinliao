@@ -70,19 +70,12 @@
 {
     NSInteger unRead = 0;
     
-    NSMutableArray *conversationList = [NSMutableArray array];
+//    NSMutableArray *conversationList = [NSMutableArray array];
+    
     
 //2.0之前的版本不支持 getConversationList 接口
-#if kGetConverSationList
-    conversationList = [[TIMManager sharedInstance] getConversationList];
-#else
-    int cnt = [[TIMManager sharedInstance] ConversationCount];
-    for (int index=0; index < cnt; index++)
-    {
-        TIMConversation *conversation = [[TIMManager sharedInstance] getConversationByIndex:index];
-        [conversationList addObject:conversation];
-    }
-#endif
+    NSArray *conversationList = [[TIMManager sharedInstance] getConversationList];
+
 
     for (TIMConversation *conversation in conversationList)
     {
@@ -291,14 +284,14 @@
     }
 }
 
-- (void)removeConversationWithConv:(IMAConversation *)conv
-{
-    if (conv == nil)
-    {
-        return;
-    }
-    [[TIMManager sharedInstance] deleteConversation:[conv type] receiver:[conv receiver]];
-}
+//- (void)removeConversationWithConv:(IMAConversation *)conv
+//{
+//    if (conv == nil)
+//    {
+//        return;
+//    }
+//    [[TIMManager sharedInstance] deleteConversation:[conv type] receiver:[conv receiver]];
+//}
 
 - (void)updateConversationWith:(IMAUser *)user
 {
@@ -349,7 +342,6 @@
                     TIMGroupSystemElem *gse = (TIMGroupSystemElem *)elem;
                     if (gse.type == TIM_GROUP_SYSTEM_ADD_GROUP_REQUEST_TYPE)
                     {
-//                        [self onAddGroupRequest:gse];
                         isContinue = NO;
                         isAddGroupReq = YES;
                     }
@@ -361,28 +353,18 @@
                     {
                         if (!msg.isSelf)
                         {
-//                            [self onAddFreindRequest:(TIMSNSSystemElem *)elem];
                             isContinue = NO;
                             isAddFriendReq = YES;
                         }
                     }
                 }
             }
-//            continue;
             if (isContinue)
             {
                 continue;
             }
         }
-//#if kSupportCustomConversation
-//#else
-//        if (isSystemMsg)
-//        {
-//            continue;
-//        }
-//#endif
         
-
         BOOL updateSucc = NO;
         
         for (int i = 0; i < [_conversationList count]; i++)
@@ -472,10 +454,7 @@
                         ws.unReadMessageCount += newUnRead;
                     }];
                     [_conversationList insertObject:temp atIndex:[self insertPosition]];
-                    // self.unReadMessageCount++;
-                    DebugLog(@"====================>>>>>>System updateOnNewConversation");
                     [self updateOnNewConversation:temp];
-                    DebugLog(@"====================>>>>>>System updateOnNewConversation<<<<<===============");
                 }
             }
             else
@@ -485,9 +464,7 @@
                 temp.lastMessage = imamsg;
                 [_conversationList insertObject:temp atIndex:[self insertPosition]];
                 self.unReadMessageCount++;
-                DebugLog(@"====================>>>>>>updateOnNewConversation");
                 [self updateOnNewConversation:temp];
-                DebugLog(@"====================>>>>>>updateOnNewConversation<<<<<===============");
             }
         }
     }

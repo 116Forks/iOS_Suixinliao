@@ -44,20 +44,20 @@
     
     for (TIMMessage *msg in msgs)
     {
-        if (msg.status != TIM_MSG_STATUS_HAS_DELETED)
+//        if (msg.status != TIM_MSG_STATUS_HAS_DELETED)
+//        {
+        IMAMsg *imamsg = [IMAMsg msgWith:msg];
+        
+        if (imamsg)
         {
-            IMAMsg *imamsg = [IMAMsg msgWith:msg];
-            
-            if (imamsg)
+            self.lastMessage = imamsg;
+            if (block)
             {
-                self.lastMessage = imamsg;
-                if (block)
-                {
-                    block();
-                }
-                return;
+                block();
             }
+            return;
         }
+//        }
     }
 //    __weak IMAConversation *ws = self;
 //    [_conversation getMessage:1 last:nil succ:^(NSArray *array) {
@@ -150,11 +150,11 @@
         do
         {
             TIMMessage *msg = timmsgList[idx];
-            if (msg.status == TIM_MSG_STATUS_HAS_DELETED)
-            {
-                idx--;
-                continue;
-            }
+//            if (msg.status == TIM_MSG_STATUS_HAS_DELETED)
+//            {
+//                idx--;
+//                continue;
+//            }
             
             NSDate *date = [msg timestamp];
             if (idx == timmsgList.count - 1)

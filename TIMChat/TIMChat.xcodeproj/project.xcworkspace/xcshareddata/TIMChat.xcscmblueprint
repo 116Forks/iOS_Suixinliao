@@ -1,32 +1,25 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "9CE520706B9D4D1ECAAD0A4CB495A0E7314F91E9",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8417ab44-c799-11e4-acac-0d5433960dbe++5797",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
-    "8417ab44-c799-11e4-acac-0d5433960dbe++5164" : {
+    "8417ab44-c799-11e4-acac-0d5433960dbe++5797" : {
 
     }
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "9CE520706B9D4D1ECAAD0A4CB495A0E7314F91E9" : 0,
-    "8417ab44-c799-11e4-acac-0d5433960dbe++5164" : 0
+    "8417ab44-c799-11e4-acac-0d5433960dbe++5797" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "57415FEA-0202-4223-A5A5-A7D4302F40BE",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "9CE520706B9D4D1ECAAD0A4CB495A0E7314F91E9" : "iOS_Suixinliao\/",
-    "8417ab44-c799-11e4-acac-0d5433960dbe++5164" : "TIMChat\/"
+    "8417ab44-c799-11e4-acac-0d5433960dbe++5797" : "iOS_TIMChat_2.3_AppStore\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "TIMChat",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
-  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TIMChat\/TIMChat.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TIMChat.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/tc-svn.tencent.com\/bpf\/bpf_OpenSDK_rep",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8417ab44-c799-11e4-acac-0d5433960dbe++5164"
-    },
-    {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/zhaoyang21cn\/iOS_Suixinliao.git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9CE520706B9D4D1ECAAD0A4CB495A0E7314F91E9"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8417ab44-c799-11e4-acac-0d5433960dbe++5797"
     }
   ]
 }

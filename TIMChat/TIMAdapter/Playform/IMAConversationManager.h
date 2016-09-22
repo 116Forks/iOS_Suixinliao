@@ -75,7 +75,7 @@ typedef void (^IMAConversationChangedCompletion)(IMAConversationChangedNotifyIte
 - (void)removeConversationWith:(IMAUser *)user;
 
 // 移除sdk生成的会话(不一定在_converdationlist中)
-- (void)removeConversationWithConv:(IMAConversation *)conv;
+//- (void)removeConversationWithConv:(IMAConversation *)conv;
 
 // 更新与user的会话
 - (void)updateConversationWith:(IMAUser *)user;

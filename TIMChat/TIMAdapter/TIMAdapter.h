@@ -15,7 +15,6 @@
 #import <TLSSDK/TLSHelper.h>
 
 
-#define kGetConverSationList 0
 #define kSupportCustomConversation 1
 
 typedef NS_ENUM(NSInteger, IMAConType)
@@ -83,8 +82,6 @@ typedef NS_ENUM(NSInteger, IMAConType)
 #define kIMAMSG_DeleteNotification @"kIMAMSG_DeleteNotification"
 #define kIMAMSG_ResendNotification @"kIMAMSG_ResendNotification"
 #define kIMAMSG_ChangedNotification @"kIMAMSG_ChangedNotification"
-
-#define kIMAMSG_ReloginNotification @"kIMAMSG_ReloginNotification"
 
 //==============================
 

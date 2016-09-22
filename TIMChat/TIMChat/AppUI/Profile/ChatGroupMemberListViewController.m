@@ -75,6 +75,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onModifyNameCard:) name:kGroup_ModifyNameCardNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSetAdmin:) name:kGroup_SetAdminNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRemoveGroup:) name:kGroup_RemoveMemberNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onJoinedGroup:) name:kGroup_InviteJoinedMemberNotification object:nil];
 }
 
 - (void)onModifyNameCard:(NSNotification *)notify
@@ -202,6 +203,33 @@
     
 }
 
+- (void)onJoinedGroup:(NSNotification *)notify
+{
+    NSArray *users = (NSArray *)notify.object;
+    if (!users)
+    {
+        return;
+    }
+    
+    KeyValue *kvOtherMember = [self getOtherMemberKeyValue];
+    NSMutableArray *otherMembers = kvOtherMember.value;
+    
+    if (!otherMembers)
+    {
+        return;
+    }
+    
+    for (TIMGroupMemberResult *result in users)
+    {
+        IMAUser *temp = [[IMAUser alloc] initWith:result.member];
+        [otherMembers addObject:temp];
+    }
+    
+    [self reloadData];
+    
+    self.title = [NSString stringWithFormat:@"成员列表(%u)", _group.groupInfo.memberNum + (uint32_t)users.count];
+}
+
 - (BOOL)canAddRightBarItem
 {
     BOOL noCanAdd = [_group isChatRoom] | [_group isPublicGroup];//聊天室和公开群不能邀请好友
@@ -215,6 +243,8 @@
 - (void)inviteJoin:(NSArray *)array
 {
     [_group asyncInviteMembers:array succ:^(NSArray *members) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGroup_InviteJoinedMemberNotification object:members];
         [[HUDHelper sharedInstance] tipMessage:@"邀请成功"];
     } fail:nil];
 }

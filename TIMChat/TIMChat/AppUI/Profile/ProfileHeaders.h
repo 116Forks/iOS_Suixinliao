@@ -16,6 +16,8 @@
 
 #define kGroup_RemoveMemberNotification @"kGroup_RemoveMemberNotification"
 
+#define kGroup_InviteJoinedMemberNotification @"kGroup_InviteJoinedMemberNotification"
+
 #define kNewFriend_RefusedApplayNotification @"kNewFriend_RefusedApplayNotification"
 
 #import "UserActionButton.h"

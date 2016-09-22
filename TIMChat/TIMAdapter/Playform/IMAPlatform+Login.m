@@ -17,6 +17,10 @@
 {
     if (!param)
     {
+        if (fail)
+        {
+            fail(-1,@"参数错误");
+        }
         return;
     }
     

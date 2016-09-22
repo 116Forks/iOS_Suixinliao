@@ -299,7 +299,7 @@
     IMAUser *user = (IMAUser *)[[drawer items] objectAtIndex:indexPath.row];
     
     //跳转到AIO
-    [AppDelegate sharedAppDelegate].isContactListEnterChatViewController = YES;
+//    [AppDelegate sharedAppDelegate].isContactListEnterChatViewController = YES;
     
     [[AppDelegate sharedAppDelegate] pushToChatViewControllerWith:user];
 }

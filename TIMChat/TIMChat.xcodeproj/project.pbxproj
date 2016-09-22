@@ -2278,6 +2278,7 @@
 				TargetAttributes = {
 					92A6D38C1C5B506A00065EB3 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = GS763F39GF;
 					};
 					9B617A7C1CAE71920051C24D = {
 						CreatedOnToolsVersion = 7.2;
@@ -2765,7 +2766,7 @@
 					"$(PROJECT_DIR)/CommonLibrary/BlocksKit",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.sng.demo.dailybuild;
+				PRODUCT_BUNDLE_IDENTIFIER = com.imchat.imchat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -2779,7 +2780,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tencent Technology (Shenzhen) Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2797,9 +2798,9 @@
 					"$(PROJECT_DIR)/CommonLibrary/BlocksKit",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.sng.demo.dailybuild;
+				PRODUCT_BUNDLE_IDENTIFIER = com.imchat.imchat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "83e548d1-e798-459e-be0d-480e78b86034";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
@@ -2822,7 +2823,7 @@
 				GCC_PREFIX_HEADER = "TIMChat/TIMChat-Prefix.pch";
 				INFOPLIST_FILE = "TIMChat/DailyBuild-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "83e548d1-e798-459e-be0d-480e78b86034";
+				PROVISIONING_PROFILE = "d92b36b2-ea28-4f21-924a-17da505db0a3";
 			};
 			name = Release;
 		};
@@ -2870,7 +2871,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tencent Technology (Shenzhen) Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2888,9 +2889,9 @@
 					"$(PROJECT_DIR)/CommonLibrary/BlocksKit",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.sng.demo.dailybuild;
+				PRODUCT_BUNDLE_IDENTIFIER = com.imchat.imchat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d04ec99a-c53f-4389-8e32-d0f184c4c23a";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = DailyBuild;
@@ -2904,7 +2905,7 @@
 				GCC_PREFIX_HEADER = "TIMChat/TIMChat-Prefix.pch";
 				INFOPLIST_FILE = "TIMChat/DailyBuild-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "83e548d1-e798-459e-be0d-480e78b86034";
+				PROVISIONING_PROFILE = "d92b36b2-ea28-4f21-924a-17da505db0a3";
 			};
 			name = DailyBuild;
 		};

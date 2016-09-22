@@ -41,8 +41,62 @@
 }
 
 
+- (void)addNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onJoinedGroup:) name:kGroup_InviteJoinedMemberNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRemoveGroup:) name:kGroup_RemoveMemberNotification object:nil];
+}
+
+- (void)onJoinedGroup:(NSNotification *)notify
+{
+    NSArray *users = (NSArray *)notify.object;
+    if (!users)
+    {
+        return;
+    }
+    
+    IMAGroup *group = (IMAGroup *)_user;
+    
+    NSArray *section0 = [_dataDictionary objectForKey:@(0)];
+    RichCellMenuItem *gmc = [section0 objectAtIndex:0];
+    gmc.value = [NSString stringWithFormat:@"%d人", (int)[group memberCount]  + (uint32_t)users.count];
+    
+    [self.tableView beginUpdates];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    NSArray *indexPaths = [NSArray arrayWithObject:indexPath];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    
+    [self.tableView endUpdates];
+}
+
+- (void)onRemoveGroup:(NSNotification *)notify
+{
+    IMAUser *removeUser = (IMAUser *)notify.object;
+    if (!removeUser)
+    {
+        return;
+    }
+    
+    IMAGroup *group = (IMAGroup *)_user;
+    
+    NSArray *section0 = [_dataDictionary objectForKey:@(0)];
+    RichCellMenuItem *gmc = [section0 objectAtIndex:0];
+    gmc.value = [NSString stringWithFormat:@"%d人", (int)[group memberCount] - 1 ];
+    
+    [self.tableView beginUpdates];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    NSArray *indexPaths = [NSArray arrayWithObject:indexPath];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    
+    [self.tableView endUpdates];
+}
+
 - (void)configOwnViews
 {
+    [self addNotification];
+    
     _dataDictionary = [NSMutableDictionary dictionary];
     
     IMAGroup *group = (IMAGroup *)_user;

@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, IMAMsgStatus)
     EIMAMsg_Sending = TIM_MSG_STATUS_SENDING,       // 消息发送中
     EIMAMsg_SendSucc = TIM_MSG_STATUS_SEND_SUCC,    // 消息发送成功
     EIMAMsg_SendFail = TIM_MSG_STATUS_SEND_FAIL,    // 消息发送失败
-    EIMAMsg_Deleted = TIM_MSG_STATUS_HAS_DELETED,   // 消息被删除
+//    EIMAMsg_Deleted = TIM_MSG_STATUS_HAS_DELETED,   // 消息被删除 已经废除，以前删除消息是仅仅把状态置为delete，现在是直接删除存储
 };
 
 @interface IMAMsg : NSObject

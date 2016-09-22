@@ -169,15 +169,24 @@
     if (!user)
     {
         DebugLog(@"参数有误");
+        if (fail)
+        {
+            fail(-1, @"参数有误");
+        }
         return;
     }
     __weak IMAContactManager *ws = self;
     [[TIMFriendshipManager sharedInstance] AddBlackList:@[user.userId] succ:^(NSArray *friends) {
         // 从好友分组中移除
-        [ws removeUserToBlackList:user];
-        if (succ)
+        if (friends.count > 0)
         {
-            succ(friends);
+            TIMFriendResult *res = friends[0];
+            IMAUser *user = [[IMAUser alloc] initWith:res.identifier];
+            [ws removeUserToBlackList:user];
+            if (succ)
+            {
+                succ(friends);
+            }
         }
         
     } fail:^(int code, NSString *err) {

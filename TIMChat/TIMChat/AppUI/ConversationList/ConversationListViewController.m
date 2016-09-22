@@ -61,19 +61,7 @@
     [super viewDidLoad];
     self.navigationItem.title = @"会话";
     [self pinHeaderView];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRelogin) name:kIMAMSG_ReloginNotification object:nil];
 }
-
-
-- (void)onRelogin
-{
-    [self.KVOController unobserveAll];
-    [self configOwnViews];
-    
-}
-
 
 - (void)viewDidAppear:(BOOL)animated
 {

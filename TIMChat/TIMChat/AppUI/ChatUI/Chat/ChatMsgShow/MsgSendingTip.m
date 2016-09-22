@@ -57,13 +57,13 @@
             _sendFailed.hidden = NO;
         }
             break;
-        case EIMAMsg_Deleted:
-        {
-            _sendFailed.hidden = YES;
-            _sendFailed.hidden = YES;
-        }
-            
-            break;
+//        case EIMAMsg_Deleted:
+//        {
+//            _sendFailed.hidden = YES;
+//            _sendFailed.hidden = YES;
+//        }
+//            
+//            break;
         default:
             break;
     }

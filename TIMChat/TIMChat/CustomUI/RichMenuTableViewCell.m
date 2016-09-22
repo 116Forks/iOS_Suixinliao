@@ -241,6 +241,8 @@
 - (void)inviteJoin:(NSArray *)array
 {
     [_group asyncInviteMembers:array succ:^(NSArray *members) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGroup_InviteJoinedMemberNotification object:members];
         [[HUDHelper sharedInstance] tipMessage:@"邀请成功"];
     } fail:nil];
 }

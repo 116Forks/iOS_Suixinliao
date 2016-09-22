@@ -184,6 +184,8 @@ static Class kHostClass = Nil;
     [self saveToLocal];
     
     _contactMgr = nil;
+    
+    [[TIMManager sharedInstance] removeMessageListener:_conversationMgr];
     _conversationMgr = nil;
 }
 

@@ -20,7 +20,7 @@
     else
     {
         [_conversation setDraft:nil];
-        [self adapterConversation];
+//        [self adapterConversation];
     }
     
     //这里必须先清空会话列表
@@ -30,19 +30,19 @@
 }
 
 //在退出聊天界面时，判断当前会话是否应该被创建(如果是从联系人列表进入，且没有发送过消息，且会话列表中不存在这个会话，则认为不应该创建这个新会话)
-- (void)adapterConversation
-{
-    if ([AppDelegate sharedAppDelegate].isContactListEnterChatViewController)
-    {
-        if (!_isSendMsg)
-        {
-            if (![[IMAPlatform sharedInstance].conversationMgr queryConversationWith:_receiver])
-            {
-                [[IMAPlatform sharedInstance].conversationMgr removeConversationWithConv:_conversation];
-            }
-        }
-    }
-}
+//- (void)adapterConversation
+//{
+//    if ([AppDelegate sharedAppDelegate].isContactListEnterChatViewController)
+//    {
+//        if (!_isSendMsg)
+//        {
+//            if (![[IMAPlatform sharedInstance].conversationMgr queryConversationWith:_receiver])
+//            {
+//                [[IMAPlatform sharedInstance].conversationMgr removeConversationWithConv:_conversation];
+//            }
+//        }
+//    }
+//}
 
 - (void)addInputPanel
 {
