@@ -250,7 +250,7 @@ static ChatSoundRecorder *_sharedInstance = nil;
     }
     else
     {
-        [self.session setActive:YES error:nil];
+//        [self.session setActive:YES error:nil];
     }
 }
 
@@ -354,6 +354,7 @@ static ChatSoundRecorder *_sharedInstance = nil;
         return;
     }
     
+    [self.session setActive:YES error:nil];
     [self.recorder record];
     
     [self showRecordView];
@@ -505,6 +506,8 @@ static ChatSoundRecorder *_sharedInstance = nil;
     
     [self.recorder stop];
     
+    [self.session setActive:NO error:nil];
+    
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.recorder.url.path])
     {
         if (!self.recorder.recording)
@@ -608,6 +611,7 @@ static ChatSoundPlayer *_sharedPlayer = nil;
 #pragma mark - AVAudioPlayerDelegate
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
+    [[AVAudioSession sharedInstance] setActive:NO error:nil];
     if (_playCompletion)
     {
         _playCompletion();
