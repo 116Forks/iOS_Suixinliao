@@ -4,3 +4,7 @@
 
 IMSDK : http://dldir1.qq.com/hudongzhibo/git/IM/IM_iOS_SDK_2.3.zip 下载后解压，将解压后文件夹下的包拷贝到工程目录 TIMChat/TIMAdapter/Framework/，即可运行
 
+## 联系我们
+技术支持QQ群：468195767
+
+技术需求反馈：https://github.com/zhaoyang21cn/iOS_Suixinliao/issues
